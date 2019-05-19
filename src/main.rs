@@ -6,7 +6,9 @@ extern crate rand;
 use bellman::{Circuit, ConstraintSystem, SynthesisError};
 use pairing::{Engine, Field, PrimeField};
 
-mod cube; 
+mod cube;
+mod circle;
+mod multiply;
 
 fn main(){
     use pairing::bls12_381::{Bls12, Fr};
@@ -46,6 +48,6 @@ fn main(){
     assert!(verify_proof(
         &pvk,
         &proof,
-        &[Fr::from_str("35").unwrap()]
+        &[Fr::from_str("37").unwrap()]
     ).unwrap());
 }
