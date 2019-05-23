@@ -55,7 +55,7 @@ impl <E: Engine> Circuit<E> for CircleDemo<E> {
         // x * x = x_square
         // y * y = y_square
         // r * r = r_square
-        // x_square + y_square = r_square
+        // (x_square + y_square)*1 = r_square
         // Resulting R1CS with w = [one, x, x_square, y, y_square, r, r_square]
         
         // Allocate the first private "auxiliary" variable
@@ -142,7 +142,7 @@ fn test_circle_proof(){
     // `OsRng` (for example) in production software.
     let rng = &mut thread_rng();
     
-    println!("Creating parameters...");
+    println!("SETUP: Creating parameters...");
     
     // Create parameters for our circuit
     let params = {
@@ -158,7 +158,7 @@ fn test_circle_proof(){
     // Prepare the verification key (for proof verification)
     let pvk = prepare_verifying_key(&params.vk);
 
-    println!("Creating proofs...");
+    println!("Alice: Creating proofs...");
 
     let public_radius = Fr::from_str("5");
     
@@ -172,6 +172,8 @@ fn test_circle_proof(){
     // Create a groth16 proof with our parameters.
     let proof = create_random_proof(c, &params, rng).unwrap();
         
+    println!("Bob: Verifying...");
+
     assert!(verify_proof(
         &pvk,
         &proof,
