@@ -51,11 +51,11 @@ impl <E: Engine> Circuit<E> for CircleDemo<E> {
         cs: &mut CS
     ) -> Result<(), SynthesisError>
     {
-        // Flattened into quadratic equations (x^2 + y^2 == r): 
+        // Flattened into quadratic equations (x^2 + y^2 == r^2): 
         // x * x = x_square
         // y * y = y_square
         // r * r = r_square
-        // (x_square + y_square)*1 = r_square
+        // (x_square + y_square) * 1 = r_square
         // Resulting R1CS with w = [one, x, x_square, y, y_square, r, r_square]
         
         // Allocate the first private "auxiliary" variable
@@ -158,9 +158,9 @@ fn test_circle_proof(){
     // Prepare the verification key (for proof verification)
     let pvk = prepare_verifying_key(&params.vk);
 
-    println!("Alice: Creating proofs...");
-
     let public_radius = Fr::from_str("5");
+
+    println!("Alice: Creating proofs...");
     
     // Create an instance of circuit
     let c = CircleDemo::<Bls12> {
